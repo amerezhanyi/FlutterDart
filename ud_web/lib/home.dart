@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import './widgets/navigation.dart';
 import './widgets/main_card.dart';
+import './widgets/team_card.dart';
+import './widgets/title_badge.dart';
+import './widgets/post_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -56,20 +59,30 @@ class _HomePageState extends State<HomePage> {
             height: 10.0,
             width: double.infinity,
           ),
+          const TitleBadge(text: "Our Team", color: Colors.brown),
           Container(
-            height: 50.0,
-            width: 200.0,
-            // color: Colors.white,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15.0),
-              color: Colors.brown,
+            height: 400.0,
+            margin: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: TeamCard.cards.length,
+              itemBuilder: (ctx, index) => TeamCard(cardIndex: index),
             ),
-            child: const Text("Our Team",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.white,
-                )
+          ),
+          const TitleBadge(text: "Last Posts", color: Colors.blue),
+          const SizedBox(
+            height: 10.0,
+            width: double.infinity,
+          ),
+          Container(
+            height: 400.0,
+            width: double.infinity,
+            child: Column(
+              children: PostCard.cards
+                  .map(
+                    (card) => PostCard(card: card),
+                  )
+                  .toList(),
             ),
           ),
         ],
