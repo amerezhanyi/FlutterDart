@@ -58,6 +58,8 @@ void main(List<String> arguments) {
   var list = [1, 2, 3];
   // Pass printElement as a parameter.
   list.forEach(printElement);
+
+  tour.cascadeExample();
 }
 
 String countInit() {
