@@ -60,6 +60,17 @@ void main(List<String> arguments) {
   list.forEach(printElement);
 
   tour.cascadeExample();
+
+  var command = 'CLOSED';
+  switch (command) {
+    case 'CLOSED': // Empty case falls through.
+    case 'NOW_CLOSED':
+      // Runs for both CLOSED and NOW_CLOSED.
+      print('CLOSED!');
+      break;
+  }
+
+  tour.classFactory();
 }
 
 String countInit() {
