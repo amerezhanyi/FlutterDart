@@ -1,4 +1,5 @@
 import 'package:tour/tour.dart' as tour;
+import 'package:tour/class.dart' as class_lib;
 
 void main(List<String> arguments) {
   print('Hello world: ${tour.calculate()}!');
@@ -71,6 +72,8 @@ void main(List<String> arguments) {
   }
 
   tour.classFactory();
+  tour.employeeClassRunner();
+  class_lib.pointRunner();
 }
 
 String countInit() {
