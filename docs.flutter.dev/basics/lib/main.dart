@@ -1,6 +1,8 @@
-import 'package:basics/button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+
+import './button.dart';
+import './counter.dart';
 
 void main() {
   runApp(
@@ -42,7 +44,7 @@ class TutorialHome extends StatelessWidget {
       // body is the majority of the screen.
       body: Center(
         child: Column(
-          children: const [Text('Ho-ho-ho, world!'), MyButton()],
+          children: const [Text('Ho-ho-ho, world!'), MyButton(), Counter()],
         ),
       ),
       floatingActionButton: const FloatingActionButton(
