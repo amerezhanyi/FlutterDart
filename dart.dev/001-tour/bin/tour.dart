@@ -1,7 +1,8 @@
+import 'package:tour/future.dart';
 import 'package:tour/tour.dart' as tour;
 import 'package:tour/class.dart' as class_lib;
 
-void main(List<String> arguments) {
+void main(List<String> arguments) async {
   print('Hello world: ${tour.calculate()}!');
 
   var number = 42; // Declare and initialize a variable.
@@ -74,6 +75,18 @@ void main(List<String> arguments) {
   tour.classFactory();
   tour.employeeClassRunner();
   class_lib.pointRunner();
+
+  try {
+    var version = await lookUpVersion();
+    print("Async version: $version");
+  } catch (e) {
+    // React to inability to look up the version
+  }
+
+  var n = asynchronousNaturalsTo(5);
+  n.forEach(
+    (element) => print("Naturals: $element"),
+  );
 }
 
 String countInit() {
