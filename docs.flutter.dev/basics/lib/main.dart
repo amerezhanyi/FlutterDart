@@ -1,3 +1,4 @@
+import 'package:basics/image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -44,7 +45,12 @@ class TutorialHome extends StatelessWidget {
       // body is the majority of the screen.
       body: Center(
         child: Column(
-          children: const [Text('Ho-ho-ho, world!'), MyButton(), Counter()],
+          children: const [
+            Text('Ho-ho-ho, world!'),
+            MyButton(),
+            Counter(),
+            ImageCenter(),
+          ],
         ),
       ),
       floatingActionButton: const FloatingActionButton(
