@@ -1,3 +1,4 @@
+import 'package:basics/rating.dart';
 import 'package:flutter/material.dart';
 
 class ImageCenter extends StatelessWidget {
@@ -7,7 +8,7 @@ class ImageCenter extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 300,
-      height: 300,
+      // height: 400,
       child: Column(
         children: [
           Center(
@@ -29,12 +30,17 @@ class ImageCenter extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.network('https://picsum.photos/id/237/100'),
-                Image.network('https://picsum.photos/id/238/100'),
-                Image.network('https://picsum.photos/id/239/100'),
+                Expanded(
+                    child: Image.network('https://picsum.photos/id/237/100')),
+                Expanded(
+                    flex: 2,
+                    child: Image.network('https://picsum.photos/id/238/100')),
+                Expanded(
+                    child: Image.network('https://picsum.photos/id/239/100')),
               ],
             ),
           ),
+          const RatingStars(),
         ],
       ),
     );
