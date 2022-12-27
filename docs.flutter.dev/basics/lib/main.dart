@@ -1,9 +1,12 @@
-import 'package:basics/image.dart';
+import 'package:basics/card.dart';
+import 'package:basics/stack.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import './button.dart';
+import 'grid.dart';
 import './counter.dart';
+import './image.dart';
 
 void main() {
   runApp(
@@ -44,13 +47,18 @@ class TutorialHome extends StatelessWidget {
       ),
       // body is the majority of the screen.
       body: Center(
-        child: Column(
-          children: const [
-            Text('Ho-ho-ho, world!'),
-            MyButton(),
-            Counter(),
-            ImageCenter(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: const [
+              Text('Ho-ho-ho, world!'),
+              MyButton(),
+              Counter(),
+              ImageCenter(),
+              GridImage(),
+              StackAvatar(),
+              CardInfo(),
+            ],
+          ),
         ),
       ),
       floatingActionButton: const FloatingActionButton(
