@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'favorite_widget.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -89,7 +91,6 @@ Widget titleSection = Container(
   child: Row(
     children: [
       Expanded(
-        /*1*/
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -111,11 +112,7 @@ Widget titleSection = Container(
           ],
         ),
       ),
-      Icon(
-        Icons.star,
-        color: Colors.red[500],
-      ),
-      const Text('41'),
+      const FavoriteWidget(),
     ],
   ),
 );
