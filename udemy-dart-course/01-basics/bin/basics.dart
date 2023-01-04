@@ -1,6 +1,7 @@
 import 'package:basics/hello_world.dart' as hello;
 import 'package:basics/type.dart' as type;
 import 'package:basics/control_flow.dart' as flow;
+import 'package:basics/collections.dart' as collections;
 
 void main(List<String> arguments) {
   // Section 2: Dart Basics
@@ -18,4 +19,11 @@ void main(List<String> arguments) {
   flow.exercise_04_03();
   flow.exercise_04_06();
   flow.exercise_04_10();
+
+  // Section 6: Collections
+  collections.exercise_06_03();
+  collections.exercise_06_08();
+  collections.exercise_06_13();
+  collections.exercise_06_15();
+  collections.exercise_06_19();
 }
