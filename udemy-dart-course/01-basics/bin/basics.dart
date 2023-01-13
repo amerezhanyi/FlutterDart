@@ -3,6 +3,7 @@ import 'package:basics/type.dart' as type;
 import 'package:basics/control_flow.dart' as flow;
 import 'package:basics/collections.dart' as collections;
 import 'package:basics/functions.dart' as functions;
+import 'package:basics/classes.dart' as classes;
 
 void main(List<String> arguments) {
   // Section 2: Dart Basics
@@ -35,4 +36,8 @@ void main(List<String> arguments) {
   // Sections 10: Functions #2
   functions.exercise_10_11();
   functions.exercise_10_12();
+
+  // Section 11: Classes #1
+  classes.exercise_11_07();
+  classes.exercise_11_13();
 }
