@@ -4,6 +4,7 @@ import 'package:basics/control_flow.dart' as flow;
 import 'package:basics/collections.dart' as collections;
 import 'package:basics/functions.dart' as functions;
 import 'package:basics/classes.dart' as classes;
+import 'package:basics/mixins.dart' as mixins;
 
 void main(List<String> arguments) {
   // Section 2: Dart Basics
@@ -44,4 +45,7 @@ void main(List<String> arguments) {
   classes.exercise_12_07();
   classes.exercise_12_12();
   classes.exercise_12_17();
+
+  // Section 14: Mixins
+  mixins.exercise_14_06();
 }
