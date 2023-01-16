@@ -6,8 +6,9 @@ import 'package:basics/functions.dart' as functions;
 import 'package:basics/classes.dart' as classes;
 import 'package:basics/mixins.dart' as mixins;
 import 'package:basics/exceptions.dart' as exceptions;
+import 'package:basics/async.dart' as async;
 
-void main(List<String> arguments) {
+Future<void> main(List<String> arguments) async {
   // Section 2: Dart Basics
   hello.helloWorld();
   hello.variables();
@@ -52,4 +53,8 @@ void main(List<String> arguments) {
 
   // Section 15: Exceptions
   exceptions.exercise_15_05();
+
+  // Section 16: Async
+  await async.exercise_16_05();
+  await async.exercise_16_08();
 }
