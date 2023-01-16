@@ -5,6 +5,7 @@ import 'package:basics/collections.dart' as collections;
 import 'package:basics/functions.dart' as functions;
 import 'package:basics/classes.dart' as classes;
 import 'package:basics/mixins.dart' as mixins;
+import 'package:basics/exceptions.dart' as exceptions;
 
 void main(List<String> arguments) {
   // Section 2: Dart Basics
@@ -48,4 +49,7 @@ void main(List<String> arguments) {
 
   // Section 14: Mixins
   mixins.exercise_14_06();
+
+  // Section 15: Exceptions
+  exceptions.exercise_15_05();
 }
