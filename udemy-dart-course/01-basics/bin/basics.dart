@@ -39,5 +39,9 @@ void main(List<String> arguments) {
 
   // Section 11: Classes #1
   classes.exercise_11_07();
-  classes.exercise_11_13();
+
+  // Section 12: Classes #2
+  classes.exercise_12_07();
+  classes.exercise_12_12();
+  classes.exercise_12_17();
 }
