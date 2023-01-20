@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_cocktail/providers/cocktails.dart';
+import 'package:provider/provider.dart';
 
-import 'pages/search.dart';
+import 'pages/search_page.dart';
 
 void main() {
   // Portrait mode
@@ -13,15 +15,39 @@ void main() {
 class MyCocktail extends StatelessWidget {
   const MyCocktail({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // Theme: dark mode
-    return MaterialApp(
-      title: 'My Cocktail',
-      theme: ThemeData.dark()
-          .copyWith(scaffoldBackgroundColor: const Color(0xFF1F2129)),
-      home: const SearchPage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: Cocktails()),
+      ],
+      child: Consumer(
+        builder: (BuildContext context, cocktails, _) => MaterialApp(
+          title: 'My Cocktail',
+          theme: ThemeData(
+            brightness: Brightness.dark, // Theme: dark mode
+            scaffoldBackgroundColor: const Color(0xFF1F2129),
+            primaryColor: const Color(0xFF3C4D74),
+            textTheme: const TextTheme(
+              headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+              // headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+              // bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+            ),
+            elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF3C4D74),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
+                ),
+                minimumSize: const Size(double.infinity, 50),
+              ),
+            ),
+          ),
+          home: const SearchPage(),
+        ),
+      ),
     );
   }
 }
