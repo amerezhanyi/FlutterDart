@@ -21,9 +21,9 @@ class _SearchPageState extends State<SearchPage> {
     }
 
     print(">>> Title: $_cocktailName");
-    // setState(() {
+    setState(() {
     //   _cocktailName = _cocktailName;
-    // });
+    });
     final String title = _cocktailName.toLowerCase().replaceAll(" ", "_");
     try {
       await Provider.of<Cocktails>(context, listen: false)
@@ -53,22 +53,31 @@ class _SearchPageState extends State<SearchPage> {
           child: Center(
             child: Column(
               children: [
-                Text(
-                  "Cocktails",
-                  style: Theme.of(context).textTheme.headline1,
-                ),
-                TextField(
-                  onChanged: (value) => _cocktailName = value,
-                  decoration: InputDecoration(
-                    contentPadding: const EdgeInsets.all(20),
-                    hintText: "Name a Cocktail?",
-                    border: outlineInputBorder,
-                    focusedBorder: outlineInputBorder,
+                Padding(
+                  padding: const EdgeInsets.only(top: 32.0, bottom: 64.0),
+                  child: Text(
+                    "Cocktails",
+                    style: Theme.of(context).textTheme.headline1,
                   ),
                 ),
-                MainButton(
-                  callback: _setCocktailName,
-                  title: "Search",
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 64.0),
+                  child: TextField(
+                    onChanged: (value) => _cocktailName = value,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(20),
+                      hintText: "Name a Cocktail?",
+                      border: outlineInputBorder,
+                      focusedBorder: outlineInputBorder,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 32.0),
+                  child: MainButton(
+                    callback: _setCocktailName,
+                    title: "Search",
+                  ),
                 ),
                 Text("cocktail: <$_cocktailName>"),
                 MainButton(callback: () {}, title: "Random"),

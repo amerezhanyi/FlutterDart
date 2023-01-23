@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:my_cocktail/pages/results_page.dart';
 import 'package:my_cocktail/providers/cocktails.dart';
 import 'package:provider/provider.dart';
 
@@ -28,9 +29,11 @@ class MyCocktail extends StatelessWidget {
             brightness: Brightness.dark, // Theme: dark mode
             scaffoldBackgroundColor: const Color(0xFF1F2129),
             primaryColor: const Color(0xFF3C4D74),
+            secondaryHeaderColor: const Color(0xFF383D4D),
             textTheme: const TextTheme(
-              headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-              // headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+              headline1: TextStyle(fontSize: 64.0, fontWeight: FontWeight.bold),
+              headline2: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+              headline3: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
               // bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
             ),
             elevatedButtonTheme: ElevatedButtonThemeData(
@@ -45,7 +48,8 @@ class MyCocktail extends StatelessWidget {
               ),
             ),
           ),
-          home: const SearchPage(),
+          // home: const SearchPage(),
+          home: const ResultPage(),
         ),
       ),
     );
