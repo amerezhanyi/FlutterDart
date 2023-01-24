@@ -49,7 +49,11 @@ class MyCocktail extends StatelessWidget {
             ),
           ),
           // home: const SearchPage(),
-          home: const ResultPage(),
+          home: const SearchPage(),
+          routes: {
+            SearchPage.routeName: (context) => const SearchPage(),
+            ResultPage.routeName: (context) => const ResultPage(),
+          },
         ),
       ),
     );

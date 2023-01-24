@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class InfoCard extends StatelessWidget {
   final String title;
-  final String body;
+  final Widget body;
 
   const InfoCard({super.key, required this.title, required this.body});
 
@@ -20,14 +20,17 @@ class InfoCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(
-              title,
-              style: Theme.of(context).textTheme.headline3,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.headline3,
+              ),
             ),
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
-                child: Text(body),
+                child: body,
               ),
             )
           ],

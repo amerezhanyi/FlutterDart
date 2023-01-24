@@ -21,8 +21,6 @@ class Cocktails extends ChangeNotifier {
         throw HttpException(cocktail['error']['message']);
       }
 
-      print(">>> Response: $cocktail");
-
       var drinks = cocktail['drinks'];
 
       if (drinks == null) {
@@ -59,8 +57,6 @@ class Cocktails extends ChangeNotifier {
         instructions: drink['strInstructions'],
         ingredients: ingredientList,
       );
-
-      print(">>> ${currentCocktail?.name}");
 
       notifyListeners();
     } catch (error) {

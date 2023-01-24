@@ -1,13 +1,21 @@
 import "package:flutter/material.dart";
+import 'package:my_cocktail/models/ingredient.dart';
+import 'package:my_cocktail/providers/cocktails.dart';
 import 'package:my_cocktail/widgets/info_card.dart';
+import 'package:my_cocktail/widgets/ingredients_table.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/main_button.dart';
 
 class ResultPage extends StatelessWidget {
+  static const routeName = '/result';
+
   const ResultPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final currentCocktail = Provider.of<Cocktails>(context).currentCocktail;
+
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -16,7 +24,7 @@ class ResultPage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
               child: Center(
                 child: Text(
-                  "Title",
+                  currentCocktail?.name ?? "Cocktail name",
                   style: Theme.of(context).textTheme.headline2,
                 ),
               ),
@@ -29,33 +37,45 @@ class ResultPage extends StatelessWidget {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text("category"),
-                  Text("-"),
-                  Text("alcoholic"),
-                  Text("-"),
-                  Text("glass type"),
+                children: [
+                  Text(currentCocktail?.category ?? "unknown category"),
+                  const Text("-"),
+                  Text(currentCocktail?.alcoholic ?? "alcoholic?"),
+                  const Text("-"),
+                  Text(currentCocktail?.glassType ?? "unknown glass type"),
                 ],
               ),
             ),
-            Container(
-              width: 200,
-              height: 200,
-              decoration: const BoxDecoration(shape: BoxShape.circle),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: NetworkImage(currentCocktail?.pictureUrl ??
+                            "https://picsum.photos/id/326/200/200.jpg"))),
+              ),
             ),
             InfoCard(
               title: "Ingredients",
-              body:
-                  "test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text ",
+              body: IngredientsTable(
+                  ingredientsList: currentCocktail?.ingredients ??
+                      [const Ingredient(name: "Water", measure: "1.5l")]),
             ),
             InfoCard(
               title: "Instruction",
-              body:
-                  "test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text test text ",
+              body: Text(
+                  currentCocktail?.instructions ?? "Just mix and shake! 🍸"),
             ),
             Container(
-                padding: EdgeInsets.only(top: 16, left: 32, right: 32),
-                child: MainButton(callback: () {}, title: "Return")),
+                padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
+                child: MainButton(
+                    callback: () {
+                      Navigator.of(context).pop();
+                    },
+                    title: "Return")),
           ],
         ),
       ),
