@@ -1,6 +1,6 @@
 import 'package:todo_app/models/task.dart';
 
-List<Task> taskList = [
+List<Task> initTaskList = [
   Task(title: "Morning exercise", isCompleted: false),
   Task(title: "Read book for 15 minutes", isCompleted: false),
   Task(title: "Drink morning coffee", isCompleted: true),

@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import 'package:todo_app/models/task.dart';
 
 import "../task_list.dart";
+import "../models/task.dart";
 import "../widgets/dialog_box.dart";
 import "../widgets/task_tile.dart";
 
@@ -14,11 +14,19 @@ class TaskListPage extends StatefulWidget {
 
 class _TaskListPageState extends State<TaskListPage> {
   final _controller = TextEditingController();
+  final taskList = initTaskList;
 
-  void onChange(isCompleted, index) {
+  void onComplete(isCompleted, index) {
     print(">>> ${taskList[index].isCompleted} -> $isCompleted");
     setState(() {
       taskList[index].isCompleted = isCompleted ?? false;
+    });
+  }
+
+  void onDelete(int index) {
+    print(">>> DELETE: $index");
+    setState(() {
+      taskList.removeAt(index);
     });
   }
 
@@ -58,7 +66,8 @@ class _TaskListPageState extends State<TaskListPage> {
           itemBuilder: (context, index) => TaskTile(
             title: taskList[index].title,
             isCompleted: taskList[index].isCompleted,
-            onChange: (isCompleted) => onChange(isCompleted, index),
+            onChange: (isCompleted) => onComplete(isCompleted, index),
+            onDelete: (BuildContext context) => onDelete(index),
           ),
         ),
       ),

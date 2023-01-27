@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'pages/tasklist_page.dart';
+import 'pages/task_list_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.yellow,
         primaryColor: Colors.yellow,
         highlightColor: Colors.black,
+        selectedRowColor: Colors.red,
       ),
       home: const TaskListPage(),
     );
