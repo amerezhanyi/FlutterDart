@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import "package:habbit_app/components/button_add.dart";
-import "package:habbit_app/components/habit_box.dart";
 
+import "../components/button_add.dart";
+import "../components/habit_box.dart";
 import "../components/habit_tile.dart";
 
 class HomePage extends StatefulWidget {
@@ -24,11 +24,23 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  final _habitBoxController = TextEditingController();
+  void _onSave() {
+    setState(() {
+      habits.add([_habitBoxController.text, false]);
+    });
+    _habitBoxController.clear();
+    Navigator.of(context).pop();
+  }
+
   void createNewHabit() {
     showDialog(
         context: context,
         builder: (context) {
-          return const HabitBox();
+          return HabitBox(
+            controller: _habitBoxController,
+            onSave: _onSave,
+          );
         });
   }
 
@@ -45,8 +57,35 @@ class _HomePageState extends State<HomePage> {
           title: habits[index][0],
           isCompleted: habits[index][1],
           onChange: (value) => checkboxTapped(value, index),
+          settingTapped: (context) => _openHabitSettings(index),
+          deleteTapped: (context) => _deleteHabit(index),
         ),
       ),
     );
+  }
+
+  _openHabitSettings(int index) {
+    _habitBoxController.text = habits[index][0];
+    showDialog(
+        context: context,
+        builder: (context) {
+          return HabitBox(
+              controller: _habitBoxController,
+              onSave: () => _saveExistingHabit(index));
+        });
+  }
+
+  _deleteHabit(int index) {
+    setState(() {
+      habits.removeAt(index);
+    });
+  }
+
+  void _saveExistingHabit(int index) {
+    setState(() {
+      habits[index][0] = _habitBoxController.text;
+    });
+    _habitBoxController.clear();
+    Navigator.of(context).pop();
   }
 }
