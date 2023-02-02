@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
-// import "package:shared_preferences/shared_preferences.dart";
 
 import "../components/button_add.dart";
 import "../components/habit_box.dart";
 import "../components/habit_tile.dart";
+import "../components/month_summary.dart";
 import "../data/habit_database.dart";
 
 class HomePage extends StatefulWidget {
@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final HabitDatabase _habitDb = HabitDatabase();
-  // final Future<SharedPreferences> _db = SharedPreferences.getInstance();
   List<dynamic> _habits = [];
 
   @override
@@ -50,43 +49,11 @@ class _HomePageState extends State<HomePage> {
   void createNewHabit() {
     showDialog(
         context: context,
-        builder: (context) {
-          return HabitBox(
-            controller: _habitBoxController,
-            onSave: _onSave,
-          );
-        });
-  }
-
-  @override
-  Widget build(BuildContext ctx) {
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-      floatingActionButton: ButtonAdd(
-        onPress: () => createNewHabit(),
-      ),
-      body: ListView.builder(
-        itemCount: _habits.length,
-        itemBuilder: (context, index) => HabitTile(
-          title: _habits[index][0],
-          isCompleted: _habits[index][1],
-          onChange: (value) => checkboxTapped(value, index),
-          settingTapped: (context) => _openHabitSettings(index),
-          deleteTapped: (context) => _deleteHabit(index),
-        ),
+      builder: (context) => HabitBox(
+        controller: _habitBoxController,
+        onSave: _onSave,
       ),
     );
-  }
-
-  _openHabitSettings(int index) {
-    _habitBoxController.text = _habits[index][0];
-    showDialog(
-        context: context,
-        builder: (context) {
-          return HabitBox(
-              controller: _habitBoxController,
-              onSave: () => _saveExistingHabit(index));
-        });
   }
 
   _deleteHabit(int index) {
@@ -104,4 +71,55 @@ class _HomePageState extends State<HomePage> {
     _habitBoxController.clear();
     Navigator.of(context).pop();
   }
+
+  _openHabitSettings(int index) {
+    _habitBoxController.text = _habits[index][0];
+    showDialog(
+      context: context,
+      builder: (context) {
+        return HabitBox(
+            controller: _habitBoxController,
+            onSave: () => _saveExistingHabit(index));
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext ctx) {
+    return Scaffold(
+      backgroundColor: Colors.grey[300],
+      floatingActionButton: ButtonAdd(
+        onPress: () => createNewHabit(),
+      ),
+      body: ListView(
+        children: [
+          // monthly summary heat map
+          MonthlySummary(
+            datasets: _habitDb.heatMapDataSet,
+            startDate: _habitDb.startDate,
+          ),
+
+          // list of habits
+          ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: _habits.length,
+            itemBuilder: (context, index) {
+              return HabitTile(
+                title: _habits[index][0],
+                isCompleted: _habits[index][1],
+                onChange: (value) => checkboxTapped(value, index),
+                settingTapped: (context) => _openHabitSettings(index),
+                deleteTapped: (context) => _deleteHabit(index),
+              );
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+
+
+
 }

@@ -6,6 +6,7 @@ import "../utils/date_time.dart";
 class HabitDatabase {
   List todaysHabitList = [];
   Map<DateTime, int> heatMapDataSet = {};
+  String startDate = todaysDateFormatted();
 
   Future<List<dynamic>> loadInitData() async {
     final db = await SharedPreferences.getInstance();
@@ -17,6 +18,7 @@ class HabitDatabase {
     } else {
       habits = await _loadData();
     }
+    startDate = db.getString("START_DATE") ?? todaysDateFormatted();
     return habits;
   }
 
