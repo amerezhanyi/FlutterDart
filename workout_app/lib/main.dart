@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "package:workout_app/data/workout_data.dart";
 
 import "pages/home_page.dart";
 
@@ -11,12 +13,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Workout Tracker",
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ChangeNotifierProvider(
+      create: (context) => WorkoutData(),
+      child: const MaterialApp(
+        home: HomePage(),
       ),
-      home: const HomePage(),
     );
   }
 }

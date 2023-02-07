@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:workout_app/models/exercise.dart';
 import 'package:workout_app/models/workout.dart';
 
-class WorkoutData {
+class WorkoutData extends ChangeNotifier {
   final List<Workout> workoutList = [
     Workout(
       name: "Upper Body",
@@ -19,6 +20,8 @@ class WorkoutData {
 
   void addWorkout(String name) {
     workoutList.add(Workout(name: name, exercises: []));
+
+    notifyListeners();
   }
 
   void addExercise(String workoutName, String exerciseName, String weight,
@@ -26,11 +29,15 @@ class WorkoutData {
     final workout = getRelevantWorkout(workoutName);
     workout.exercises.add(
         Exercise(name: exerciseName, weight: weight, reps: reps, sets: sets));
+
+    notifyListeners();
   }
 
   void checkOffExercise(String workoutName, String exerciseName) {
     final exercise = getRelevantExercise(workoutName, exerciseName);
     exercise.isCompleted = !exercise.isCompleted;
+
+    notifyListeners();
   }
 
   Workout getRelevantWorkout(String workoutName) =>
