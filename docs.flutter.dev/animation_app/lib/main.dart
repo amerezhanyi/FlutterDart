@@ -1,115 +1,125 @@
+// #docregion ShakeCurve
+import 'dart:math';
+
+// #enddocregion ShakeCurve
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const LogoApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// #docregion diff
+class AnimatedLogo extends AnimatedWidget {
+  const AnimatedLogo({super.key, required Animation<double> animation})
+      : super(listenable: animation);
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  // Make the Tweens static because they don't change.
+  static final _opacityTween = Tween<double>(begin: 0.1, end: 1);
+  static final _sizeTween = Tween<double>(begin: 0, end: 300);
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    final animation = listenable as Animation<double>;
+    return Center(
+      child: Opacity(
+        opacity: _opacityTween.evaluate(animation),
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          height: _sizeTween.evaluate(animation),
+          width: _sizeTween.evaluate(animation),
+          child: const FlutterLogo(),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+class LogoApp extends StatefulWidget {
+  const LogoApp({super.key});
+
+  @override
+  State<LogoApp> createState() => _LogoAppState();
+}
+
+class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
+  late Animation<double> animation;
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    // #docregion AnimationController, tweens
+    controller =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    // #enddocregion AnimationController, tweens
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          controller.forward();
+        }
+      });
+    controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) => AnimatedLogo(animation: animation);
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+}
+// #enddocregion diff
+
+// Extra code used only in the tutorial explanations. It is not used by the app.
+
+class UsedInTutorialTextOnly extends _LogoAppState {
+  UsedInTutorialTextOnly() {
+    // ignore: unused_local_variable, prefer_typing_uninitialized_variables
+    var animation, sizeAnimation, opacityAnimation, tween, colorTween;
+
+    // #docregion CurvedAnimation
+    animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);
+    // #enddocregion CurvedAnimation
+
+    // #docregion tweens
+    sizeAnimation = Tween<double>(begin: 0, end: 300).animate(controller);
+    opacityAnimation = Tween<double>(begin: 0.1, end: 1).animate(controller);
+    // #enddocregion tweens
+
+    // #docregion tween
+    tween = Tween<double>(begin: -200, end: 0);
+    // #enddocregion tween
+
+    // #docregion colorTween
+    colorTween = ColorTween(begin: Colors.transparent, end: Colors.black54);
+    // #enddocregion colorTween
+  }
+
+  usedInTutorialOnly1() {
+    // #docregion IntTween
+    AnimationController controller = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
+    Animation<int> alpha = IntTween(begin: 0, end: 255).animate(controller);
+    // #enddocregion IntTween
+    return alpha;
+  }
+
+  usedInTutorialOnly2() {
+    // #docregion IntTween-curve
+    AnimationController controller = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this);
+    final Animation<double> curve =
+        CurvedAnimation(parent: controller, curve: Curves.easeOut);
+    Animation<int> alpha = IntTween(begin: 0, end: 255).animate(curve);
+    // #enddocregion IntTween-curve
+    return alpha;
+  }
+}
+
+// #docregion ShakeCurve
+class ShakeCurve extends Curve {
+  @override
+  double transform(double t) => sin(t * pi * 2);
 }
