@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void cancel() {
+    newWorkoutNameController.clear();
     Navigator.pop(context);
   }
 
