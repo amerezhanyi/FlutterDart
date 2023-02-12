@@ -9,6 +9,7 @@ final IconData moodEmoji;
   @override
   Widget build(BuildContext context) {
     return Column(
+
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                  Icon(

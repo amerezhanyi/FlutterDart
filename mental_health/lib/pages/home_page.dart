@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health/widgets/mood_box.dart';
-import 'package:mental_health/widgets/search_bar.dart';
-import 'package:mental_health/widgets/header.dart';
+
+import '../widgets/footer.dart';
+import '../widgets/bottom_box.dart';
+import '../widgets/mood_box.dart';
+import '../widgets/search_bar.dart';
+import '../widgets/header.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,16 +18,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.blue[800],
+        bottomNavigationBar: const Footer(),
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: Column(
-              children: const [
-                Header(),
-                SearchBar(),
-                MoodBox(),
-              ],
-            ),
+          child: Column(
+            children: const [
+              Header(),
+              SearchBar(),
+              MoodBox(),
+              BottomBox(),
+            ],
           ),
         ));
   }
