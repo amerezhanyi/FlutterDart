@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_ui_app/widgets/flat_button.dart';
 
 import '../models/story.dart';
 import '../widgets/bubble_story.dart';
@@ -90,6 +91,19 @@ class AccountPage extends StatelessWidget {
                   ),
                 ],
               ),
+              // flat buttons (edit profile, ad tools, insights)
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: const [
+                    FlatButton(title: 'Edit Profile'),
+                    FlatButton(title: 'Ad Tools'),
+                    FlatButton(title: 'Insights'),
+                  ],
+                ),
+              ),
               // user stories
               Column(
                 children: [
@@ -105,24 +119,6 @@ class AccountPage extends StatelessWidget {
                         );
                       },
                     ),
-                  ),
-                ],
-              ),
-              // flat buttons (edit profile, ad tools, insights)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Edit Profile'),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Ad Tools'),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('Insights'),
                   ),
                 ],
               ),
@@ -145,22 +141,14 @@ class AccountPage extends StatelessWidget {
                 ),
               ),
               // bottom navigation bar
-              Container(
+              const SizedBox(
                 height: 50,
                 child: TabBar(
-                  tabs: const [
-                    Tab(
-                      icon: Icon(Icons.grid_on),
-                    ),
-                    Tab(
-                      icon: Icon(Icons.video_call),
-                    ),
-                    Tab(
-                      icon: Icon(Icons.shop),
-                    ),
-                    Tab(
-                      icon: Icon(Icons.person),
-                    ),
+                  tabs: [
+                    Tab(icon: Icon(Icons.grid_on)),
+                    Tab(icon: Icon(Icons.video_call)),
+                    Tab(icon: Icon(Icons.shop)),
+                    Tab(icon: Icon(Icons.person)),
                   ],
                 ),
               ),
