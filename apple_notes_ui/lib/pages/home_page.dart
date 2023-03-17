@@ -71,6 +71,18 @@ class _HomePageState extends State<HomePage> {
                   value.getNotes.length,
                   (index) => CupertinoListTile(
                     title: Text(value.getNotes[index].text),
+                    onTap: () {
+                      goToNotePage(value.getNotes[index], false);
+                    },
+                    trailing: GestureDetector(
+                      onTap: () {
+                        deleteNote(value.getNotes[index]);
+                      },
+                      child: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                    ),
                   ),
                 ),
               )

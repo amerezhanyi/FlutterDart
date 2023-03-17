@@ -37,8 +37,9 @@ class _EditingNotePageState extends State<EditingNotePage> {
   }
 
   // add new note
-  void addNewNote(int id) {
+  void addNewNote() {
     final text = _controller.document.toPlainText();
+    final id = Provider.of<NoteData>(context, listen: false).getNotes.length;
     Provider.of<NoteData>(context, listen: false).add(
       Note(
         id: id,
@@ -129,8 +130,7 @@ class _EditingNotePageState extends State<EditingNotePage> {
         onPressed: () {
           if (widget.isNewNote &&
               _controller.document.toPlainText().isNotEmpty) {
-            addNewNote(
-                Provider.of<NoteData>(context, listen: false).getNotes.length);
+            addNewNote();
           } else {
             updateNote();
           }
