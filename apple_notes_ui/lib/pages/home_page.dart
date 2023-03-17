@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: CupertinoColors.systemGroupedBackground,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            createNewNote;
+            createNewNote();
           },
           elevation: 0,
           backgroundColor: Colors.grey[300],
