@@ -1,6 +1,8 @@
+import 'package:admin_dashboard/models/my_files.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
+import 'file_info_card.dart';
 
 class MyFiles extends StatelessWidget {
   const MyFiles({
@@ -30,6 +32,18 @@ class MyFiles extends StatelessWidget {
               label: const Text("Add New"),
             ),
           ],
+        ),
+        const SizedBox(height: defaultPadding),
+        GridView.builder(
+          shrinkWrap: true,
+          itemCount: demoMyFiles.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            crossAxisSpacing: defaultPadding,
+            childAspectRatio: 1.2,
+          ),
+          itemBuilder: (context, index) =>
+              FileInfoCard(card: demoMyFiles[index]),
         ),
       ],
     );
