@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:ui';
 
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
@@ -6,8 +6,8 @@ import 'package:flame/game.dart';
 
 import 'components/card.dart';
 import 'components/foundation_pile.dart';
-import 'components/tableau_pile.dart';
 import 'components/stock_pile.dart';
+import 'components/tableau_pile.dart';
 import 'components/waste_pile.dart';
 
 class KlondikeGame extends FlameGame {
@@ -16,32 +16,33 @@ class KlondikeGame extends FlameGame {
   static const double cardHeight = 1400.0;
   static const double cardRadius = 100.0;
   static final Vector2 cardSize = Vector2(cardWidth, cardHeight);
+  static final cardRRect = RRect.fromRectAndRadius(
+    const Rect.fromLTWH(0, 0, cardWidth, cardHeight),
+    const Radius.circular(cardRadius),
+  );
 
   @override
   Future<void> onLoad() async {
     await Flame.images.load('klondike-sprites.png');
 
-    final stock = StockPile()
-      ..size = cardSize
-      ..position = Vector2(cardGap, cardGap);
-    final waste = WastePile()
-      ..size = cardSize
-      ..position = Vector2(cardWidth + 2 * cardGap, cardGap);
+    final stock = StockPile(position: Vector2(cardGap, cardGap));
+    final waste =
+        WastePile(position: Vector2(cardWidth + 2 * cardGap, cardGap));
     final foundations = List.generate(
       4,
-      (i) => FoundationPile()
-        ..size = cardSize
-        ..position =
-            Vector2((i + 3) * (cardWidth + cardGap) + cardGap, cardGap),
+      (i) => FoundationPile(
+        i,
+        position: Vector2((i + 3) * (cardWidth + cardGap) + cardGap, cardGap),
+      ),
     );
     final piles = List.generate(
       7,
-      (i) => TableauPile()
-        ..size = cardSize
-        ..position = Vector2(
+      (i) => TableauPile(
+        position: Vector2(
           cardGap + i * (cardWidth + cardGap),
           cardHeight + 2 * cardGap,
         ),
+      ),
     );
 
     final world = World()
@@ -58,18 +59,20 @@ class KlondikeGame extends FlameGame {
       ..viewfinder.anchor = Anchor.topCenter;
     add(camera);
 
-    final random = Random();
+    final cards = [
+      for (var rank = 1; rank <= 13; rank++)
+        for (var suit = 0; suit < 4; suit++) Card(rank, suit)
+    ];
+    cards.shuffle();
+    world.addAll(cards);
+
     for (var i = 0; i < 7; i++) {
-      for (var j = 0; j < 4; j++) {
-        final card = Card(random.nextInt(13) + 1, random.nextInt(4))
-          ..position = Vector2(100 + i * 1150, 100 + j * 1500)
-          ..addToParent(world);
-        // flip the card face-up with 90% probability
-        if (random.nextDouble() < 0.9) {
-          card.flip();
-        }
+      for (var j = i; j < 7; j++) {
+        piles[j].acquireCard(cards.removeLast());
       }
+      piles[i].flipTopCard();
     }
+    cards.forEach(stock.acquireCard);
   }
 }
 
