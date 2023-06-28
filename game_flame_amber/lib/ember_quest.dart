@@ -8,15 +8,23 @@ import 'objects/ground_block.dart';
 import 'objects/platform_block.dart';
 import 'objects/star.dart';
 import 'package:flutter/material.dart';
+import 'package:flame/events.dart';
 
-class EmberQuestGame extends FlameGame {
+import 'overlays/hud.dart';
+
+class EmberQuestGame extends FlameGame
+    with HasCollisionDetection, HasKeyboardHandlerComponents {
   EmberQuestGame();
 
   late EmberPlayer _ember;
-  double objectSpeed = 0.0;
-
   final world = World();
   late final CameraComponent cameraComponent;
+  late double lastBlockXPosition = 0.0;
+  late UniqueKey lastBlockKey;
+
+  double objectSpeed = 0.0;
+  int starsCollected = 0;
+  int health = 3;
 
   @override
   Future<void> onLoad() async {
@@ -29,16 +37,13 @@ class EmberQuestGame extends FlameGame {
       'star.png',
       'water_enemy.png',
     ]);
-
     cameraComponent = CameraComponent(world: world);
-    // Everything in this tutorial assumes that the position
-    // of the `CameraComponent`s viewfinder (where the camera is looking)
-    // is in the top left corner, that's why we set the anchor here.
     cameraComponent.viewfinder.anchor = Anchor.topLeft;
     addAll([cameraComponent, world]);
 
-    initializeGame();
+    initializeGame(true);
   }
+
 
   @override
   Color backgroundColor() {
@@ -49,6 +54,12 @@ class EmberQuestGame extends FlameGame {
     for (final block in segments[segmentIndex]) {
       switch (block.blockType) {
         case GroundBlock:
+          add(
+            GroundBlock(
+              gridPosition: block.gridPosition,
+              xOffset: xPositionOffset,
+            ),
+          );
           break;
         case PlatformBlock:
           add(PlatformBlock(
@@ -57,14 +68,26 @@ class EmberQuestGame extends FlameGame {
           ));
           break;
         case Star:
+          add(
+            Star(
+              gridPosition: block.gridPosition,
+              xOffset: xPositionOffset,
+            ),
+          );
           break;
         case WaterEnemy:
+          add(
+            WaterEnemy(
+              gridPosition: block.gridPosition,
+              xOffset: xPositionOffset,
+            ),
+          );
           break;
       }
     }
   }
 
-  void initializeGame() {
+  void initializeGame(bool loadHud) {
     // Assume that size.x < 3200
     final segmentsToLoad = (size.x / 640).ceil();
     segmentsToLoad.clamp(0, segments.length);
@@ -74,8 +97,25 @@ class EmberQuestGame extends FlameGame {
     }
 
     _ember = EmberPlayer(
-      position: Vector2(128, canvasSize.y - 70),
+      position: Vector2(128, canvasSize.y - 128),
     );
-    world.add(_ember);
+    add(_ember);
+    if (loadHud) {
+      add(Hud());
+    }
+  }
+
+  void reset() {
+    starsCollected = 0;
+    health = 3;
+    initializeGame(false);
+  }
+
+  @override
+  void update(double dt) {
+    if (health <= 0) {
+      overlays.add('GameOver');
+    }
+    super.update(dt);
   }
 }
