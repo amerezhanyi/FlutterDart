@@ -15,10 +15,12 @@ class EmberPlayer extends SpriteAnimationComponent
   final Vector2 velocity = Vector2.zero();
   final double moveSpeed = 200;
   final Vector2 fromAbove = Vector2(0, -1);
-  bool isOnGround = false;
+  final Vector2 fromBelow = Vector2(0, 1);
   final double gravity = 15;
   final double jumpSpeed = 600;
   final double terminalVelocity = 150;
+  bool isOnGround = false;
+  bool isBumped = false;
 
   bool hasJumped = false;
   bool hitByEnemy = false;
@@ -74,8 +76,12 @@ class EmberPlayer extends SpriteAnimationComponent
 
         // If collision normal is almost upwards,
         // ember must be on ground.
-        if (fromAbove.dot(collisionNormal) > 0.9) {
+        if (fromAbove.dot(collisionNormal) > 0) {
           isOnGround = true;
+          print("is on ground");
+        }
+        if (fromBelow.dot(collisionNormal) > 0.9) {
+          isBumped = true;
         }
 
         // Resolve collision by moving ember along
@@ -111,21 +117,37 @@ class EmberPlayer extends SpriteAnimationComponent
     }
 
     position += velocity * dt;
+
+    // print('!y=${velocity.y}, isOnGround=$isOnGround');
+    if (isBumped) {
+      velocity.y = jumpSpeed;
+      isBumped = false;
+      // print('y=${velocity.y}');
+    }
+
     // Apply basic gravity
     velocity.y += gravity;
 
     // Determine if ember has jumped
-    if (hasJumped) {
-      if (isOnGround) {
-        velocity.y = -jumpSpeed;
-        isOnGround = false;
-      }
-      hasJumped = false;
+    // if (hasJumped) {
+    //   if (isOnGround) {
+    //     velocity.y = -jumpSpeed;
+    //     isOnGround = false;
+    //   }
+    //   hasJumped = false;
+    // }
+    if (hasJumped && isOnGround) {
+      velocity.y = -jumpSpeed;
+      isOnGround = false;
     }
 
     // Prevent ember from jumping to crazy fast as well as descending too fast and
     // crashing through the ground or a platform.
     velocity.y = velocity.y.clamp(-jumpSpeed, terminalVelocity);
+    // velocity.y = jumpSpeed;
+    // if (isOnGround) {
+    //   velocity.y = 0;
+    // }
 
     if (horizontalDirection < 0 && scale.x > 0) {
       flipHorizontally();
